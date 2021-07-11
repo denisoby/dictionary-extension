@@ -32,7 +32,13 @@ const common = {
         filename: '[name].js',
         path: path.resolve(__dirname, 'dist')
     },
-    plugins: [new CopyWebpackPlugin([{ from: 'public' }])]
+    plugins: [
+        new CopyWebpackPlugin({
+            patterns: [
+                { from: 'public' }
+            ]
+        })
+    ]
 };
 
 const development = {
