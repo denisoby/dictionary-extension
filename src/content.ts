@@ -43,7 +43,7 @@ const {textContent, textNodes}  = parsePage(document.body);
 console.log("All Text Nodes:", textContent, textNodes);
 
 function searchWord(textNode, nodeOffset, wordOffset, wordLength) {
-    
+    debugger
     const taggedWord = textNode.textContent.substr(wordOffset, wordLength); //получаем нужное слово
     const endText = textNode.textContent.slice(wordOffset+wordLength); //все что после нужного слова
     const taggedWordElement = document.createElement("a");
@@ -57,8 +57,8 @@ function searchWord(textNode, nodeOffset, wordOffset, wordLength) {
     textNodes[nodeOffset+textNode.length+taggedWord.length] = taggedWordElement.nextSibling;
 }
 
-searchWord(textNodes["290"], 290, 7, 4);
-console.log(textNodes["290"])
+searchWord(textNodes["291"], 291, 7, 4);
+console.log(textNodes["291"])
 
 
 function createTooltip(textTooltip) {
@@ -79,15 +79,17 @@ function addStyle(styleString) {
     style.textContent = styleString;
 }
 
-document.addEventListener('mouseover', function(event) {
-    if(event.target.classList.contains(taggedWordElementClassName)) {
-        addStyle(`
+addStyle(`
             .tooltip{
                 position: absolute;
                 border : 1px solid #b3c9ce;
-                display: block;
             }
         `)
+
+document.addEventListener('mouseover', function(event) {
+    
+    if(event.target.classList.contains(taggedWordElementClassName)) {
+        
         let coords = event.target.getBoundingClientRect();
         let left = coords.left + (event.target.offsetWidth - tooltipElement.offsetWidth) / 2;
             if (left < 0) left = 0; // не заезжать за левый край окна
@@ -97,16 +99,12 @@ document.addEventListener('mouseover', function(event) {
             }
         tooltipElement.style.left = coords.left + pageXOffset + 'px';
         tooltipElement.style.top = top + 'px';
-        
+        tooltipElement.style.display = 'block';
     }    
-}, capture=true);
+}, true);
 
 document.addEventListener('mouseout', function() {
-    addStyle(`
-        .tooltip{
-            display: none;
-        }
-    `)
-  }, capture=true);
+    tooltipElement.style.display = 'none';
+}, true);
 
 }
