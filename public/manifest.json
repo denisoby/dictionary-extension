@@ -1,9 +1,9 @@
 {
-    "name": "Typescript Chrome Extension",
+    "name": "Oby-dictionary",
     "version": "1.0",
-    "description": "Build your extensions with Typescript",
+    "description": "translate and collect your own words",
     "manifest_version": 2,
-    "permissions": ["storage"],
+    "permissions": ["identity"],
     "background": {
         "scripts": ["background.js"],
         "persistent": false
