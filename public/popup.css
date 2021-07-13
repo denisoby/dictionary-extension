@@ -1,24 +1,43 @@
 .popup-registration {
+    width: 250px;
     color: #333;
     font-family: Arial, sans-serif;
     font-size: 14px;
     font-weight: 300;
     line-height: 19px;
     letter-spacing: initial;
-
-    background: #fcf7d9;
-    text-align: left;
-    border-style: solid;
-    border-width: 1px;
-    border-color: #ccc;
-    box-shadow: rgba(0,0,0,0.2) 0px 2px 5px;
-    border-radius: 5px;
     padding: 10px 12px 12px 12px;
-    position: fixed;
-    z-index: 2147483647;
-    top: 15px;
-    right: 15px;
     -webkit-font-smoothing: antialiased;
     font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
+}
+
+.popup-registration__link {
+    display: flex;
+    text-decoration: none;
+    color: #000;
+    border: 1px solid;
+    border-radius: 5px;
+    justify-content: space-between;
+    background-color: lightskyblue;
+}
+
+.popup-registration__link-img {
+    width: 25px;
+    height: 30px;
+    margin-top: 9px;
+    margin-right: 11px;
+    margin-left: 10px;
+}
+
+.popup-registration__title {
+    margin-top: 0;
+    text-align: center;
+    margin-bottom: 40px;
+    margin-right: 5px;
+}
+
+.popup-registration__link-title {
+    margin-right: 20px;
+    font-size: 1.3em;
 }
