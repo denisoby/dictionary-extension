@@ -2,36 +2,109 @@ if (document.location.href === 'https://en.wikipedia.org/wiki/Pug') {
     console.log('CONTENT SCRIPT: Hello World');
 
     // find('Pug', 'my love', document.body)
-}
 
-function find(word: string, translation: string, parentNode: HTMLElement) {
-    const nodesArray = Array.prototype.slice.call(parentNode.childNodes);
 
-    for (const node of nodesArray) {
-        console.log(node.nodeType);
-        if (node.nodeType === Node.TEXT_NODE) {
-            // data or textContent or wholeText
-            const textContent = node.textContent;
-            const maxLength = 100;
-            console.log('TEXT: ', textContent.substr(0, maxLength));
-            const wordStart = textContent.indexOf(word);
-            if (wordStart > -1) {
-                const beforeWord = textContent.slice(0, wordStart);
-                const afterWord = textContent.slice(wordStart + word.length);
+const CHECK_ONLY_SPACES_REGEXP = /^\s*$/
+const taggedWordElementClassName = 'tagged-word';
 
-                node.textContent = beforeWord;
-                const wordElement = document.createElement('span');
-                wordElement.innerText = `${word} (${translation})`;
+function parsePage(node) {
+    let textContent = "";
+    const textNodes = {};
+    
+    
+    processNode(node);
 
-                const afterWordElement = document.createTextNode(afterWord);
-                node.after(wordElement,afterWordElement);
+    return {
+        textContent,
+        textNodes
+    };
 
+    function processNode(node) {
+
+        if(node.nodeType === 3){
+            if(node.data.match(CHECK_ONLY_SPACES_REGEXP)){
+                return;
             }
-        }
-        else {
-            console.log('Children of', node);
-            find(word, translation, node);
+            textNodes[textContent.length] = node;
+            textContent += node.data;
+            return;
+        } 
+        
+        let childNodes = Array.from(node.childNodes || []);
+    
+        for(const childNode of childNodes) {
+            processNode(childNode)
         }
     }
 }
 
+const {textContent, textNodes}  = parsePage(document.body);
+
+console.log("All Text Nodes:", textContent, textNodes);
+
+function searchWord(textNode, nodeOffset, wordOffset, wordLength) {
+    debugger
+    const taggedWord = textNode.textContent.substr(wordOffset, wordLength); //получаем нужное слово
+    const endText = textNode.textContent.slice(wordOffset+wordLength); //все что после нужного слова
+    const taggedWordElement = document.createElement("a");
+
+    taggedWordElement.textContent = taggedWord;
+    taggedWordElement.className = taggedWordElementClassName; 
+    textNode.textContent = textNode.textContent.substr(0, wordOffset);
+    textNode.after(taggedWordElement, endText);
+    
+    textNodes[nodeOffset+textNode.length] = taggedWordElement.childNodes[0];
+    textNodes[nodeOffset+textNode.length+taggedWord.length] = taggedWordElement.nextSibling;
+}
+
+searchWord(textNodes["291"], 291, 7, 4);
+console.log(textNodes["291"])
+
+
+function createTooltip(textTooltip) {
+    const tooltipElement = document.createElement("a");
+    tooltipElement.className = 'tooltip';
+    tooltipElement.textContent = textTooltip;
+    
+    return tooltipElement
+}
+
+const tooltipElement = createTooltip("temporary text");
+
+document.body.append(tooltipElement);
+
+const style = document.querySelector('style');
+
+function addStyle(styleString) {  
+    style.textContent = styleString;
+}
+
+addStyle(`
+            .tooltip{
+                position: absolute;
+                border : 1px solid #b3c9ce;
+            }
+        `)
+
+document.addEventListener('mouseover', function(event) {
+    
+    if(event.target.classList.contains(taggedWordElementClassName)) {
+        
+        let coords = event.target.getBoundingClientRect();
+        let left = coords.left + (event.target.offsetWidth - tooltipElement.offsetWidth) / 2;
+            if (left < 0) left = 0; // не заезжать за левый край окна
+        let top = coords.top - tooltipElement.offsetHeight - 5;
+            if (top < 0) { // если подсказка не помещается сверху, то отображать её снизу
+            top = coords.top + event.target.offsetHeight + 5;
+            }
+        tooltipElement.style.left = coords.left + pageXOffset + 'px';
+        tooltipElement.style.top = top + 'px';
+        tooltipElement.style.display = 'block';
+    }    
+}, true);
+
+document.addEventListener('mouseout', function() {
+    tooltipElement.style.display = 'none';
+}, true);
+
+}
