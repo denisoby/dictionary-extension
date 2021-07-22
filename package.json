@@ -16,6 +16,7 @@
         "@types/chrome": "^0.0.146",
         "@types/jasmine": "^3.3.13",
         "copy-webpack-plugin": "^9.0.1",
+        "jest": "^27.0.6",
         "prettier": "^2.0.5",
         "ts-loader": "^9.2.3",
         "tslint": "^6.1.2",

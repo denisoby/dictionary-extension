@@ -3,9 +3,9 @@
 module.exports = {
 
     collectCoverageFrom: [
-      '<rootDir>/src/app/**/*.ts',
-      '!<rootDir>/src/app/**/index.ts',
-      '!<rootDir>/src/app/**/*.module.ts'
+      '<rootDir>/src/**/*.ts',
+      '!<rootDir>/src/**/index.ts',
+      '!<rootDir>/src/**/*.module.ts'
     ],
   
     coverageDirectory: 'coverage',
@@ -20,11 +20,11 @@ module.exports = {
       '<rootDir>/dist/',
       '<rootDir>/e2e/',
       '<rootDir>/node_modules/',
-      '<rootDir>/src/app/*.(js|scss)'
+      '<rootDir>/src/*.(js|scss)'
     ],
   
     testMatch: [
-      '<rootDir>/src/app/*.spec.ts',
-      '<rootDir>/src/app/**/*.spec.ts'
+      '<rootDir>/src/*.spec.ts',
+      '<rootDir>/src/**/*.spec.ts'
     ]
   };
