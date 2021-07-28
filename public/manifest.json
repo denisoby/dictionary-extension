@@ -3,6 +3,7 @@
     "version": "1.0",
     "description": "translate and collect your own words",
     "manifest_version": 2,
+    "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAt0oLxMeI4hMJ17HlqHYmnAf6E8gz+PH2fjnQH30r9NtH7z2uI5ol46wwhjGruj4zq0M1GOe3H3YQJtk0rv0gyuwJxQasZQkwj68ou8eMHgRwDPiVXXueN2jehcqNVupNYklMSGEtQMBx6BOr80NUxArcNF7Oqr047hS+F1qsPm3fldKvIdSfdYNdu9Jgu1NBzADYT2FXg+yY+HwrXle99g4pqQXBq6CqRO4e5iTwvCxtUfO5EEIJjWDoxL2VQKLM4P8v0+Dz2KUAcbyYzfi1gtAyFteJ32QpL/Nwo6hAxzEFfz4gGMkFDixte52OVRlK+faMhlY8D3WuIcwPCPPemQIDAQAB",
     "permissions": ["identity"],
     "background": {
         "scripts": ["background.js"],
